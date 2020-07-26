@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Quiz</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets\styles\style.css">
+
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Row for top bar, Shows Title and timer -->
+        <div class="row topbar">
+            <div class="col-4 col-sm-6 col-xs-8">
+                <p>Coding Quiz</p>
+            </div>
+            <div class="col-4 offset-4 offset-sm-2 offset-xs-0 text-right">
+                <p id="timeDisplay">Time: 60</p>
+            </div>
+        </div>
+
+        <!-- Display area for the questions -->
+        <div class="row mt-5">
+            <h2 id="questionDisplay" class="col-12 text-center">
+                How do you attach a function to a button?
+                <hr>
+            </h2> 
+        </div>
+
+        <div id="answersContainer" class="row">
+            <h2 class="col-12 text-center">
+                <button type="button" class="btn btn-warning">The king of france</button>
+            </h2> 
+            <h2 class="col-12 text-center">
+                <button type="button" class="btn btn-warning">With a call back</button>
+            </h2> 
+            <h2 class="col-12 text-center">
+                <button type="button" class="btn btn-warning">Its just pure magic baby</button>
+            </h2> 
+            <h2 class="col-12 text-center">
+                <button type="button" class="btn btn-warning">This is not even a real answer!</button>
+            </h2> 
+            
+        </div>
+
+    </div>
+
+    <script src="assets\scripts\script.js"></script>
+    
+</body>
+</html>

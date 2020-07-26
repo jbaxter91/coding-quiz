@@ -1,0 +1,27 @@
+html
+{
+    /* background-color: #E76F51; */
+    /* background-color: #264653; */
+    color: #264653;
+    /* background-color: #2A9D8F; */
+    /* background-color: #E9C46A; */
+    /* background-color: #F4A261; */
+}
+.topbar
+{
+    /* background-color: #E76F51; */
+    background-color: #F4A261;
+    color: #264653;
+    font-size: 23px;
+    font-weight: bold;
+    align-self: center;
+    /* background-color: #2A9D8F; */
+    /* background-color: #E9C46A; */
+    /* background-color: #F4A261; */
+}
+
+body
+{
+    background-color: #E9C46A;
+    color: #264653;
+}
