@@ -50,28 +50,79 @@ var panel7 =
     correctIndex: 2,
     penaltyValue: 10
 }
+
 // ----------- End Panels Section -------------
 
 var questions = [panel1,panel2,panel3,panel4,panel5,panel6,panel7];
 var currentQuestion = 0;
+var currentTime = 60;
+var highScores = ["",""];
+var name = "";
 
-var answersContainer = document.querySelector("#answersContainer");
+var bottomContainer = document.querySelector("#bottomContainer");
 var questionDisplay = document.querySelector("#questionDisplay");
-questionDisplay.innerHTML = questions[currentQuestion].question + "<hr>";
+var timeDisplay = document.querySelector("#timeDisplay");
+var highScoreLink = document.querySelector("#highScoreLink");
+highScoreLink.addEventListener("click", function(){
+    currentQuestion = questions.length;
+    console.log("Clicked high score");
+    renderPanel();
+});
 
 
-rebuildPanelDisplay();
+init();
 
-// This function clears all buttons off the answers container then repopulates them with the current questions.
-// **Note** You must incriment the current question prior to calling rebuildPanaelDisplay
-function rebuildPanelDisplay()
+function init()
 {
+    var inputField = document.createElement("input");
+    var startButton = document.createElement("button");
+    startButton.textContent = "Start";
+    questionDisplay.innerHTML = "Enter your name to start the javascript Code Quiz! <hr>" ;
+
+    loadHighScores();
+    
+
     // Clear All buttons inside the answers container
     // If using jquery, do $(element).clear()
-    while (answersContainer.firstChild) {
-        answersContainer.removeChild(answersContainer.firstChild);
+    while (bottomContainer.firstChild) {
+        bottomContainer.removeChild(bottomContainer.firstChild);
     }
 
+    bottomContainer.appendChild(inputField);
+    bottomContainer.appendChild(startButton);
+
+    startButton.addEventListener("click",function (){
+        if(inputField.value)
+        {
+            name = inputField.value;
+            // Start the game
+            renderPanel();
+        }
+    });
+}
+
+// This function clears all buttons off the answers container then repopulates them with the current questions.
+// **Note** You must incriment the current question prior to calling renderPanal
+function renderPanel()
+{
+    if(currentQuestion >= questions.length)
+    {
+        console.log("Score" + currentTime);
+        highScores.push( "Name: " + name + "  Score: " +  currentTime);
+        renderHighScore();
+        return;
+    }
+
+    // Display Question
+    questionDisplay.innerHTML = questions[currentQuestion].question + "<hr>";
+
+    // Clear All buttons inside the answers container
+    // If using jquery, do $(element).clear()
+    while (bottomContainer.firstChild) {
+        bottomContainer.removeChild(bottomContainer.firstChild);
+    }
+
+    // Build and display answers
     for(var i = 0; i < questions[currentQuestion].answers.length; i++)
     {
         var newH2 = document.createElement("h2");
@@ -81,9 +132,47 @@ function rebuildPanelDisplay()
         newBtn.value = i
         newBtn.addEventListener("click", submitAnswer);
         newBtn.textContent = questions[currentQuestion].answers[i];
-        answersContainer.appendChild(newH2);
+        bottomContainer.appendChild(newH2);
         newH2.appendChild(newBtn);
     }
+}
+
+function renderHighScore()
+{
+    // If we get here then the user won / failled or they clicked view high score
+
+    questionDisplay.textContent = "High Scores";
+    // Clear All buttons inside the answers container
+    // If using jquery, do $(element).clear()
+    while (bottomContainer.firstChild) {
+        bottomContainer.removeChild(bottomContainer.firstChild);
+    }
+
+    for(var i =0; i < highScores.length;i++)
+    {
+        console.log("writing highscore for " + highScores[i]);
+        var newParagraph = document.createElement("p");
+        newParagraph.textContent = highScores[i];
+        bottomContainer.appendChild(newParagraph);
+    }
+
+}
+
+function loadHighScores()
+{
+    highScores = JSON.parse(localStorage.getItem("scores"));
+}
+
+function saveHighScores()
+{
+    localStorage.setItem(JSON.stringify(highScores));
+}
+
+
+function adjustTime(amount)
+{
+    currentTime -= amount;
+    timeDisplay.textContent = "Time: " + currentTime;
 }
 
 
@@ -94,6 +183,13 @@ function submitAnswer()
     {
         console.log("Correct!");
         currentQuestion++;
-        rebuildPanelDisplay();
+        renderPanel();
+    }
+    else
+    {
+        console.log("Wrong!");
+        adjustTime(questions[currentQuestion].penaltyValue);
+        currentQuestion++;
+        renderPanel();
     }
 }
