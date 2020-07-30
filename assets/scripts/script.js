@@ -56,8 +56,9 @@ var panel7 =
 var questions = [panel1,panel2,panel3,panel4,panel5,panel6,panel7];
 var currentQuestion = 0;
 var currentTime = 60;
-var highScores = ["",""];
+var highScores = [];
 var name = "";
+var timer;
 
 var bottomContainer = document.querySelector("#bottomContainer");
 var questionDisplay = document.querySelector("#questionDisplay");
@@ -66,11 +67,13 @@ var highScoreLink = document.querySelector("#highScoreLink");
 highScoreLink.addEventListener("click", function(){
     currentQuestion = questions.length;
     console.log("Clicked high score");
-    renderPanel();
+    renderHighScore();
 });
 
 
 init();
+
+
 
 function init()
 {
@@ -97,8 +100,20 @@ function init()
             name = inputField.value;
             // Start the game
             renderPanel();
+            timer = setInterval(timerTick,1000);
         }
     });
+}
+
+function timerTick()
+{
+    adjustTime(1);
+    if(currentTime <= 0)
+    {
+        currentQuestion = questions.length;
+        currentTime = 0;
+        renderPanel();
+    }
 }
 
 // This function clears all buttons off the answers container then repopulates them with the current questions.
@@ -107,8 +122,10 @@ function renderPanel()
 {
     if(currentQuestion >= questions.length)
     {
+        clearInterval(timer);
         console.log("Score" + currentTime);
         highScores.push( "Name: " + name + "  Score: " +  currentTime);
+        saveHighScores();
         renderHighScore();
         return;
     }
@@ -152,6 +169,7 @@ function renderHighScore()
     {
         console.log("writing highscore for " + highScores[i]);
         var newParagraph = document.createElement("p");
+        newParagraph.setAttribute("class","col-12 text-center");
         newParagraph.textContent = highScores[i];
         bottomContainer.appendChild(newParagraph);
     }
@@ -160,12 +178,15 @@ function renderHighScore()
 
 function loadHighScores()
 {
-    highScores = JSON.parse(localStorage.getItem("scores"));
+    if(localStorage.getItem("scores"))
+    {
+        highScores = JSON.parse(localStorage.getItem("scores"));
+    }
 }
 
 function saveHighScores()
 {
-    localStorage.setItem(JSON.stringify(highScores));
+    localStorage.setItem("scores",JSON.stringify(highScores));
 }
 
 
