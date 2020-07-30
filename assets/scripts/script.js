@@ -78,7 +78,9 @@ init();
 function init()
 {
     var inputField = document.createElement("input");
+    inputField.setAttribute("class","col-12 text-center");
     var startButton = document.createElement("button");
+    startButton.setAttribute("class","col-12 text-center");
     startButton.textContent = "Start";
     questionDisplay.innerHTML = "Enter your name to start the javascript Code Quiz! <hr>" ;
 
@@ -105,16 +107,6 @@ function init()
     });
 }
 
-function timerTick()
-{
-    adjustTime(1);
-    if(currentTime <= 0)
-    {
-        currentQuestion = questions.length;
-        currentTime = 0;
-        renderPanel();
-    }
-}
 
 // This function clears all buttons off the answers container then repopulates them with the current questions.
 // **Note** You must incriment the current question prior to calling renderPanal
@@ -189,14 +181,22 @@ function saveHighScores()
     localStorage.setItem("scores",JSON.stringify(highScores));
 }
 
+function timerTick()
+{
+    adjustTime(1);
+    if(currentTime <= 0)
+    {
+        currentQuestion = questions.length;
+        currentTime = 0;
+        renderPanel();
+    }
+}
 
 function adjustTime(amount)
 {
     currentTime -= amount;
     timeDisplay.textContent = "Time: " + currentTime;
 }
-
-
 
 function submitAnswer()
 {
