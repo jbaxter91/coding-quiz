@@ -10,3 +10,6 @@ This quiz is designed to test your knowledge in javascript with a series of ques
 
 ## High Score
 ![High Score](assets/images/high-score.png)
+
+# Link to deployed
+https://jbaxter91.github.io/coding-quiz/
